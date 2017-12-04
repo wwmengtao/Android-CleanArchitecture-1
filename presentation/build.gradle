@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
   def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -10,7 +9,6 @@ android {
   defaultConfig {
     minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
     targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
-
     applicationId globalConfiguration.getAt("androidApplicationId")
     versionCode globalConfiguration.getAt("androidVersionCode")
     versionName globalConfiguration.getAt("androidVersionName")
@@ -55,6 +53,7 @@ android {
       signingConfig signingConfigs.debug
     }
   }
+  buildToolsVersion '26.0.2'
 }
 
 dependencies {
@@ -65,8 +64,9 @@ dependencies {
   compile project(':domain')
   compile project(':data')
 
-  apt presentationDependencies.daggerCompiler
+  annotationProcessor presentationDependencies.daggerCompiler
   compile presentationDependencies.dagger
+  annotationProcessor presentationDependencies.butterKnifeCompiler
   compile presentationDependencies.butterKnife
   compile presentationDependencies.recyclerView
   compile presentationDependencies.rxJava
@@ -81,4 +81,12 @@ dependencies {
 
   //Development
   compile developmentDependencies.leakCanary
+}
+
+configurations {
+  all*.exclude group: 'com.android.support', module: 'support-v4'
+}
+
+repositories {
+  google()
 }

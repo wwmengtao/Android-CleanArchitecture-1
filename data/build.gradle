@@ -8,7 +8,6 @@ buildscript {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
@@ -23,6 +22,7 @@ android {
     minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
     targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
     versionCode globalConfiguration.getAt("androidVersionCode")
+    multiDexEnabled true
   }
 
   compileOptions {
@@ -45,6 +45,7 @@ android {
     disable 'InvalidPackage'  // Some libraries have issues with this
     disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
   }
+  buildToolsVersion '26.0.2'
 }
 
 dependencies {
@@ -64,4 +65,8 @@ dependencies {
   testCompile testDependencies.assertj
   testCompile testDependencies.mockito
   testCompile testDependencies.robolectric
+}
+
+repositories {
+  google()
 }
